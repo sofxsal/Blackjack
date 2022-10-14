@@ -14,21 +14,18 @@ public class Blackjack {
 
         int userCard1 = drawRandomCard();
         int userCard2 = drawRandomCard();
-
-        System.out.println("\nYou get a\n" + cardString(userCard1) + "\n and a \n" + cardString(userCard2));
-        
         int userCardValue = Math.min(userCard1, 10) + Math.min(userCard2, 10);
+        
+        System.out.println("\nYou get a\n" + cardString(userCard1) + "\n and a \n" + cardString(userCard2));
         System.out.println("Your total is: " + userCardValue);
+        
         scan.nextLine();
         
         int dealerCard1 = drawRandomCard();
         int dealerCard2 = drawRandomCard();
-
-        int dealCardValue = dealerCard1 + dealerCard2;
+        
         
         System.out.println("The dealer shows \n" + cardString(dealerCard1) + "\nand has a card facing down \n" + faceDown());
-        
-        int dealerCardValue = Math.min(dealerCard1, 10) + Math.min(dealerCard2, 10);
         System.out.println("\nThe dealer's total is hidden");
 
         /********************************************************************/
@@ -53,19 +50,34 @@ public class Blackjack {
             }
 
         }
-
+        /**************************************************** */
         System.out.println("\nDealer's turn");
 
         System.out.println("The dealer's cards are\n" + cardString(dealerCard1) + "\nand\n" + cardString(dealerCard2));
-        System.out.println("Dealer's total: " + dealerCardValue);
         
-        if (userCardValue > dealerCardValue) {
-            System.out.println("\nYOU WON!!!!!!!!!!!!!!");
+        int dealerCardValue = Math.min(dealerCard1, 10) + Math.min(dealerCard2, 10);
+        System.out.println("Dealer's total is: " + dealerCardValue);
+
+        while (dealerCardValue < 17) {
+            int newDealerCard = drawRandomCard();
+            dealerCardValue += Math.min(newDealerCard, 10);
+            
+            System.out.println("\n Dealer gets a \n" + cardString(newDealerCard));
+            System.out.println("Dealer's total is: " + dealerCardValue);
+        }
+
+        if (dealerCardValue > 21) {
+            System.out.println("Bust! Dealer loses");
+            System.exit(0);
+        }
+
+        if (dealerCardValue < userCardValue) {
+            System.out.println("Player Wins");
         } else {
-            System.out.println("\nToo bad, try again...");
+            System.out.println("Dealer Wins");
         }
         
-         scan.close();
+        scan.close();
 
     }
 
